@@ -9,14 +9,17 @@ exports.signupHandler = async(req, res, next) => {
     try {
         const {firstName, lastName, phone, email, password} = req.body;
         let user = await UserModel.findOne({email})
+        console.log('user in signup', user)
         if (user) {
             const error = new Error("Email already exists");
-            error.status = 404;
+            error.statusCode = 401;
             throw error;
         }
         let hashedPassword = await bcrypt.hash(password, 12);
+        console.log('hashedpwd', hashedPassword)
         let newUser = new UserModel({firstName, lastName, phone, email, password: hashedPassword});
         return newUser.save().then((result) => {
+            console.log("result in newuse save() function", result)
             res.status(201).json({
                 signedUp: true
             })
@@ -30,7 +33,7 @@ exports.signupHandler = async(req, res, next) => {
     }
 }
 
-/* user login handler */
+/* user login handler  */
 exports.loginHandler = async(req, res, next) => {
     try {
         const {email, password} = req.body;

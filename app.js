@@ -3,6 +3,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const dotenv = require('dotenv');
 const mongoose = require('mongoose');
+const cors = require('cors');
 const app = express();
 
 const authRouter = require('./router/authRouter.js');
@@ -13,6 +14,7 @@ const PORT = process.env.PORT || 8000;
 
 app.use(bodyParser.json())
 
+app.use(cors())
 
 /* Application routes */
 app.use('/auth', authRouter);
