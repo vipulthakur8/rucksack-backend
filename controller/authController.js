@@ -1,6 +1,7 @@
 
 const UserModel = require('../model/userModel.js')
 const bcrypt = require('bcrypt')
+
 const jwt = require('jsonwebtoken');
 
 /* user signup handler */
@@ -35,6 +36,7 @@ exports.signupHandler = async(req, res, next) => {
 
 /* user login handler  */
 exports.loginHandler = async(req, res, next) => {
+    console.log("[Login handler body]", req);
     try {
         const {email, password} = req.body;
         let user = await UserModel.findOne({email});
@@ -55,7 +57,7 @@ exports.loginHandler = async(req, res, next) => {
             userId: user._id.toString(),
             phone: user.phone
         },
-        process.env.TOKEN_SECRET,
+        "7ed61ca24361b1f43c6f4dcf149a7ffbaa733ca1675167f635e3c001acec7ccc",
         {
             expiresIn: '24h'
         })
