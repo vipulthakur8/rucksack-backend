@@ -7,10 +7,14 @@ const cors = require('cors');
 const app = express();
 
 const authRouter = require('./router/authRouter.js');
+const userRouter = require('./router/userRouter.js');
 
 dotenv.config();
 
 const PORT = process.env.PORT || 8000;
+
+/* Setting up multer */
+// const
 
 app.use(bodyParser.json())
 
@@ -18,6 +22,8 @@ app.use(cors())
 
 /* Application routes */
 app.use('/auth', authRouter);
+
+app.use('/user', userRouter);
 
 app.use('/',(req, res, next) => {
     return res.status(200).json({
