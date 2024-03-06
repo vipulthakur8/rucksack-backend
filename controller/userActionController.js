@@ -9,9 +9,9 @@ exports.fileUpload = async (req, res, next) => {
             throw error;
         }
 
-        const fileType = req.body.fileType;
+        // const fileType = req.body.fileType;
         const file = req.file;
-        console.log("[fielType, file]", fileType, file);
+        console.log("[file]", file);
 
         return res.status(201).json({
             uploaded: true

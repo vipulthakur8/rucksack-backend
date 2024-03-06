@@ -3,8 +3,11 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const dotenv = require('dotenv');
 const mongoose = require('mongoose');
+const multer = require('multer');
 const cors = require('cors');
 const app = express();
+
+const mul = require('./middleware/multerSetup.js')
 
 const authRouter = require('./router/authRouter.js');
 const userRouter = require('./router/userRouter.js');
@@ -13,12 +16,20 @@ dotenv.config();
 
 const PORT = process.env.PORT || 8000;
 
-/* Setting up multer */
-// const
-
+/* Bodyparser */
 app.use(bodyParser.json())
 
+/* CORS */
 app.use(cors())
+
+/* Setting up multer */
+app.use(
+    multer({
+        storage: multer.memoryStorage(),
+        limits: {
+            fileSize: 50*1024*1024      // 50MB size of file is allowed
+        }
+    }).single('file'));
 
 /* Application routes */
 app.use('/auth', authRouter);
