@@ -23,7 +23,17 @@ const userModel = new Schema({
     password: {
         type: String,
         required: true
+    },
+    images: {
+        type: Array
+    },
+    videos: {
+        type: Array
+    },
+    applications: {
+        type: Array
     }
+    
 })
 
 module.exports = mongoose.model('user', userModel)
