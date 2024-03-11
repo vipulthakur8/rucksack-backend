@@ -6,7 +6,6 @@ const jwt = require('jsonwebtoken');
 
 /* user signup handler */
 exports.signupHandler = async(req, res, next) => {
-    console.log("Singup Handler", req.body);
     try {
         const {firstName, lastName, phone, email, password} = req.body;
         let user = await UserModel.findOne({email})
@@ -36,7 +35,6 @@ exports.signupHandler = async(req, res, next) => {
 
 /* user login handler  */
 exports.loginHandler = async(req, res, next) => {
-    console.log("[Login handler body]", req);
     try {
         const {email, password} = req.body;
         let user = await UserModel.findOne({email});

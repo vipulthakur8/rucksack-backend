@@ -24,15 +24,18 @@ const userModel = new Schema({
         type: String,
         required: true
     },
-    images: {
-        type: Array
-    },
-    videos: {
-        type: Array
-    },
-    applications: {
-        type: Array
-    }
+    // images: {
+    //     type: Array
+    // },
+    // videos: {
+    //     type: Array
+    // },
+    // applications: {
+    //     type: Array
+    // },
+    // others: {
+    //     type: Array
+    // }
     
 })
 
