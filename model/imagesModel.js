@@ -8,10 +8,12 @@ const imagesModel = new Schema({
         type: Schema.ObjectId,
         required: true
     },
-    images: {
-        type: Array
-    }
+    image: {
+        type: String,
+        required: true
+    },
+
     
-})
+}, {timestamps:true})
 
 module.exports = mongoose.model('images', imagesModel)

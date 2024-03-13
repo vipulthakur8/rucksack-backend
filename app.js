@@ -11,6 +11,7 @@ const mul = require('./middleware/multerSetup.js')
 
 const authRouter = require('./router/authRouter.js');
 const userRouter = require('./router/userRouter.js');
+const genRouter = require('./router/genRouter.js');
 
 dotenv.config();
 
@@ -32,9 +33,11 @@ app.use(
     }).single('file'));
 
 /* Application routes */
-app.use('/auth', authRouter);
+app.use('/auth', authRouter);       // Authentication routes
 
-app.use('/user', userRouter);
+app.use('/user', userRouter);       // User action routes
+
+app.use('/gen/user', genRouter);    // General action routes
 
 app.use('/',(req, res, next) => {
     return res.status(200).json({
