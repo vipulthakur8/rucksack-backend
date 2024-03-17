@@ -7,4 +7,6 @@ const generalController = require('../controller/generalController.js');
 
 router.post('/dashboardContent', generalController.dashboardFetchHandler);
 
+router.get('/images/:userId/:image', generalController.serveImageHandler);
+
 module.exports = router;
