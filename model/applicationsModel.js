@@ -8,8 +8,9 @@ const applicationsModel = new Schema({
         type: Schema.ObjectId,
         required: true
     },
-    applications: {
-        type: Array
+    appName: {
+        type: String,
+        required: true
     }
     
 }, {timestamps: true})

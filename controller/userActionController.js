@@ -1,7 +1,7 @@
 const UserModel = require('../model/userModel.js');
 const ImagesModel = require('../model/imagesModel.js');
 const VideosModel = require('../model/videosModel.js');
-const ApplicationsModel = require('../model/applicaitonsModel.js');
+const ApplicationsModel = require('../model/applicationsModel.js');
 const OthersModel = require('../model/othersModel.js')
 const randomSevenDigitGen = require('../middleware/randomSevenDigitGen.js')
 require('dotenv').config()
@@ -44,7 +44,7 @@ exports.fileUpload = async (req, res, next) => {
             throw error;
         }
 
-        const fileName = `${randomSevenDigitGen()}+`+file.originalname;
+        const fileName = `${randomSevenDigitGen()}+`+file.originalname.replace(/ /gi, '');
         console.log('FileName', fileName)
 
         const fileBucket = bucket.file(fileName)
@@ -54,33 +54,7 @@ exports.fileUpload = async (req, res, next) => {
         console.log("fileUpload in fileUplaod handler", fileUpload);
 
         if (file.mimetype.split('/')[0] === 'image') {
-            console.log("In teh image type")
-            // const updatedImages = [...user.images, fileName]
-            // user.images = updatedImages;
-            // const userImages = await ImagesModel.findOne({userId: id});
-            // console.log("[userImages]", userImages );
-            // if (!userImages) {
-            //     const images =[fileName]
-            //     const newUserImages = new ImagesModel({
-            //         userId: id,
-            //         images: images
-            //     })
-
-            //     return newUserImages.save().then((result) => {
-            //         res.status(201).json({
-            //             uploaded: true
-            //         })
-            //     })
-            // }
-            // const updatedImages = [...userImages.images, fileName];
-            // userImages.images = updatedImages;
-            // console.log("before return in images type")
-            // return userImages.save().then((result) => {
-            //     res.status(201).json({
-            //         uploaded: true
-            //     })
-            // })
-
+            console.log("In the image type")
             const newUserImages = new ImagesModel({
                 userId: id,
                 image: fileName
@@ -93,35 +67,10 @@ exports.fileUpload = async (req, res, next) => {
             })
         }
         else if (file.mimetype.split('/')[0] === 'video') {
-            // console.log("In teh video type")
-            // const updatedVideos = [...user.videos, fileName];
-            // user.videos = updatedVideos;
-
-            // const userVideos = await VideosModel.find({userId: id});
-            // if (!userVideos) {
-            //     const videos =[fileName]
-            //     const newUserVideos = new ImagesModel({
-            //         userId: id,
-            //         videos: videos
-            //     })
-
-            //     return newUserVideos.save().then((result) => {
-            //         res.status(201).json({
-            //             uploaded: true
-            //         })
-            //     })
-            // }
-            // const updatedVideos = [...userVideos.videos, fileName];
-            // userVideos.videos = updatedVideos;
-            // return userVideos.save().then((result) => {
-            //     res.status(201).json({
-            //         uploaded: true
-            //     })
-            // })
-
+            console.log("In the video type")
             const newUserVideos = new ImagesModel({
                 userId: id,
-                video: fileName
+                videoName: fileName
             })
 
             return newUserVideos.save().then((result) => {
@@ -132,35 +81,10 @@ exports.fileUpload = async (req, res, next) => {
 
         }
         else if (file.mimetype.split('/')[0] === 'application') {
-            // console.log("In teh app type")
-            // const updatedApplications = [...user.applications, fileName]
-            // user.applications = updatedApplications;
-            // console.log("mimetype == applications")
-            // const userApps = await ApplicationsModel.findOne({userId: id});
-            // if (!userApps) {
-            //     const apps = [fileName]
-            //     const newUserApps = new ApplicationsModel({
-            //         userId: id,
-            //         applications: apps
-            //     })
-
-            //     return newUserApps.save().then((result) => {
-            //         res.status(201).json({
-            //             uploaded: true
-            //         })
-            //     })
-            // }
-            // const updatedApps = [...userApps.applications, fileName];
-            // userApps.applications = updatedApps;
-            // return userApps.save().then((result) => {
-            //     res.status(201).json({
-            //         uploaded: true
-            //     })
-            // })
-
+            console.log("I am inside applications mimetyhpe in file upload")
             const newUserApps = new ApplicationsModel({
                 userId: id,
-                applications: fileName
+                appName: fileName
             })
 
             return newUserApps.save().then((result) => {
@@ -171,36 +95,10 @@ exports.fileUpload = async (req, res, next) => {
 
         }
         else {
-
-            // const updatedOthers = [...user.others, fileName];
-            // user.others = updatedOthers;
-            // console.log("mimetype === others");
-            // const userOthers = await OthersModel.findOne({userId: id});
-            // if (!userOthers) {
-            //     const updatedOthers =[fileName]
-            //     const newUserOthers = new OthersModel({
-            //         userId: id,
-            //         others: updatedOthers
-            //     })
-
-            //     return newUserOthers.save().then((result) => {
-            //         res.status(201).json({
-            //             uploaded: true
-            //         })
-            //     })
-            // }
-
-            // const updatedOthers = [...userOthers, fileName];
-            // userOthers.others = updatedOthers;
-            // return userOthers.save().then(result => {
-            //     res.status(201).json({
-            //         uploaded: true
-            //     })
-            // })
-
+            console.log("I am inside others mimetyhpe in file upload")
             const newUserOthers = new OthersModel({
                 userId: id,
-                others: fileName
+                otherName: fileName
             })
 
             return newUserOthers.save().then((result) => {

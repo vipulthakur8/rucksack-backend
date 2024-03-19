@@ -8,8 +8,9 @@ const videosModel = new Schema({
         type: Schema.ObjectId,
         required: true
     },
-    videos: {
-        type: Array
+    videoName: {
+        type: String,
+        required: true
     }
     
 }, {timestamps: true})

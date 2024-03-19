@@ -8,8 +8,9 @@ const othersModel = new Schema({
         type: Schema.ObjectId,
         required: true
     },
-    others: {
-        type: Array
+    otherName: {
+        type: String,
+        required: true
     }
     
 }, {timestamps: true})

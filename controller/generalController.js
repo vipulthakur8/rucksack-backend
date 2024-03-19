@@ -1,8 +1,8 @@
 
 const ImagesModel = require('../model/imagesModel.js');
 const VideosModel =  require('../model/videosModel.js');
-const ApplicationsModel = require('../model/applicaitonsModel.js');
-const othersModel = require('../model/othersModel.js');
+const ApplicationsModel = require('../model/applicationsModel.js');
+const OthersModel = require('../model/othersModel.js');
 const { Storage } = require('@google-cloud/storage')
 
 require('dotenv').config()
@@ -12,11 +12,21 @@ const storage = new Storage({
 
 exports.dashboardFetchHandler = async (req, res, next) => {
     try {
+        console.log("Reaching the dashboardFetchHandler")
         const { id } = req.body;
+        const app = await ApplicationsModel.find({userId: id}).sort({createdAt: -1});
+        // console.log("[application]", app);
+        const documents = app.filter(item => item.appName.slice(item.length-5, item.length) !== '.pdf')
+        // console.log("document", documents);
+        const videos = await VideosModel.find({userId: id}).sort({createdAt: -1}).limit(10);
         const images = await ImagesModel.find({userId: id}).sort({createdAt: -1}).limit(10);
-        // console.log("[Images]:", images);
+        const others = await OthersModel.find({userId: id}).sort({createdAt: -1}).limit(10)
+        console.log("[Images]:", images);
         return res.status(200).json({
-            images
+            images,
+            documents,
+            videos,
+            others
         })
     } catch (error) {
         if (!error.statusCode) {
