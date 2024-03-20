@@ -12,16 +12,21 @@ const storage = new Storage({
 
 exports.dashboardFetchHandler = async (req, res, next) => {
     try {
-        console.log("Reaching the dashboardFetchHandler")
         const { id } = req.body;
         const app = await ApplicationsModel.find({userId: id}).sort({createdAt: -1});
         // console.log("[application]", app);
-        const documents = app.filter(item => item.appName.slice(item.length-5, item.length) !== '.pdf')
+        const documents = app.filter(item => {
+            let s = item.appName.slice(item.appName.length-4, item.appName.length)
+            // console.log(s);
+            return s === '.pdf'
+        })
         // console.log("document", documents);
         const videos = await VideosModel.find({userId: id}).sort({createdAt: -1}).limit(10);
         const images = await ImagesModel.find({userId: id}).sort({createdAt: -1}).limit(10);
-        const others = await OthersModel.find({userId: id}).sort({createdAt: -1}).limit(10)
-        console.log("[Images]:", images);
+        const otherFiles = await OthersModel.find({userId: id}).sort({createdAt: -1}).limit(10);
+        const others = [...app.filter(item => item.appName.slice(item.appName.length-4, item.appName.length) !== '.pdf'), ...otherFiles];
+        // console.log("[Others]", others)
+
         return res.status(200).json({
             images,
             documents,
@@ -45,7 +50,7 @@ exports.serveImageHandler = async(req, res, next) => {
     try {
         console.log('before')
         const file = storage.bucket(bucketName).file(imageName);
-        console.log('after file', file);
+        // console.log('after file', file);
 
         res.setHeader('Content-Type', 'image/jpeg');
 

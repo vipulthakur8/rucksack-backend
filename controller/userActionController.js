@@ -68,7 +68,7 @@ exports.fileUpload = async (req, res, next) => {
         }
         else if (file.mimetype.split('/')[0] === 'video') {
             console.log("In the video type")
-            const newUserVideos = new ImagesModel({
+            const newUserVideos = new VideosModel({
                 userId: id,
                 videoName: fileName
             })
