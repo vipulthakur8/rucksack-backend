@@ -44,7 +44,8 @@ exports.fileUpload = async (req, res, next) => {
             throw error;
         }
 
-        const fileName = `${randomSevenDigitGen()}+`+file.originalname.replace(/ /gi, '');
+        // const fileName = `${randomSevenDigitGen()}+`+file.originalname.replace(/ /gi, '');
+        const fileName = `${randomSevenDigitGen()}`
         console.log('FileName', fileName)
 
         const fileBucket = bucket.file(fileName)

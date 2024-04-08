@@ -10,7 +10,9 @@ const storage = new Storage({
     keyFilename: `${process.env.KEY_FILE}`
 })
 
+
 exports.dashboardFetchHandler = async (req, res, next) => {
+    console.log("DashboardFetchHandler")
     try {
         const { id } = req.body;
         const app = await ApplicationsModel.find({userId: id}).sort({createdAt: -1});
@@ -100,6 +102,77 @@ exports.serveVideoHandler = async(req, res, next) => {
 
         }).pipe(res);
 
+    } catch (error) {
+        if (!error.statusCode) {
+            error.statusCode = 501;
+        }
+        next(error);
+    }
+}
+
+exports.pdfReadHandler = async(req, res, next) => {
+    console.log('Inside pdfReaderHandler')
+    const bucketName = process.env.STORAGE_BUCKET;
+    const pdfName = req.params.pdfName
+    try {
+        const file = storage.bucket(bucketName).file(pdfName);
+        return file.createReadStream().on('error', err => {
+            if (err.code === 404) {
+                res.status(404).send('Image not found');
+            }
+            else {
+                console.error('Error streaming image:', err);
+                res.status(500).send('Internal Server Error');
+            }
+
+        }).pipe(res);
+    } catch (error) {
+        if (!error.statusCode) {
+            error.statusCode = 501;
+        }
+        next(error);
+    }
+}
+
+
+exports.videoStreamHandler = async(req, res, next) => {
+    // console.log("[Inside videoStreamHandler]")
+    // console.log("req.body", req.params)
+    const videoName = req.params.videoName;
+    const bucketName = process.env.STORAGE_BUCKET;
+    try {
+        const file = storage.bucket(bucketName).file(videoName);
+        return file.createReadStream().on('error', err => {
+            if (err.code === 404) {
+                res.status(404).send('Image not found');
+            }
+            else {
+                console.error('Error streaming image:', err);
+                res.status(500).send('Internal Server Error');
+            }
+
+        }).pipe(res);
+    } catch (error) {
+        if (!error.statusCode) {
+            error.statusCode = 501;
+        }
+        next(error);
+    }
+}
+
+
+exports.fetchAllImageHandler = async(req, res, next) => {
+    console.log("fecthAllImage", req.query);
+    const userId = req.query.user;
+    console.log("userId", userId);
+    try {
+
+        const allImages = await ImagesModel.find({userId: userId}).sort({createdAt: -1}).limit(10);
+        console.log("allImages", allImages);
+        // let allImages = await ImagesModel.find({userId});
+        return res.status(200).json({
+            allImages: allImages
+        })
     } catch (error) {
         if (!error.statusCode) {
             error.statusCode = 501;
