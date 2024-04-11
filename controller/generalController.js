@@ -162,13 +162,11 @@ exports.videoStreamHandler = async(req, res, next) => {
 
 
 exports.fetchAllImageHandler = async(req, res, next) => {
-    console.log("fecthAllImage", req.query);
     const userId = req.query.user;
-    console.log("userId", userId);
     try {
 
-        const allImages = await ImagesModel.find({userId: userId}).sort({createdAt: -1}).limit(10);
-        console.log("allImages", allImages);
+        const allImages = await ImagesModel.find({userId: userId}).sort({createdAt: -1});
+        // console.log("allImages", allImages);
         // let allImages = await ImagesModel.find({userId});
         return res.status(200).json({
             allImages: allImages
@@ -180,3 +178,39 @@ exports.fetchAllImageHandler = async(req, res, next) => {
         next(error);
     }
 }
+
+exports.fetchAllVideoHandler = async(req, res, next) => {
+    // console.log("fecthAllImage", req.query);
+    const userId = req.query.user;
+    // console.log("userId", userId);
+    try {
+        const videos = await VideosModel.find({userId: userId}).sort({createdAt: -1});
+        // console.log("allvideos", videos);
+        return res.status(200).json({
+            videos
+        })
+    } catch (error) {
+        if (!error.statusCode) {
+            error.statusCode = 501;
+        }
+        next(error);
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

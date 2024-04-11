@@ -15,4 +15,7 @@ router.get('/videos/:videoName', generalController.videoStreamHandler)
 
 router.get('/fetch-all-images', generalController.fetchAllImageHandler);
 
+router.get('/fetch-all-videos', generalController.fetchAllVideoHandler);
+
+
 module.exports = router;
